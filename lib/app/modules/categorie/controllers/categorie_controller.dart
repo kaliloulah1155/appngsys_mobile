@@ -15,13 +15,7 @@ class CategorieController extends GetxController {
       var responseJson = response.body;
       lstCategorie.addAll(responseJson['reponses']);
       print(lstCategorie.length);
-      // print(responseJson['token'].toString());
-      //final prefs = await SharedPreferences.getInstance();
-      //await prefs.setString('token', responseJson['token'].toString());
-
-
     }, onError: (err) {
-      //change(null,status: RxStatus.error(err.toString()));
       print(err.toString());
       Get.snackbar("Error", err.toString(),
           colorText: Colors.white,

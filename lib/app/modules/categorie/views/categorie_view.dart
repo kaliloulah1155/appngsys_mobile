@@ -10,14 +10,36 @@ class CategorieView extends GetView<CategorieController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CategorieView'),
+        title: Text('CategorieView'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          Get.arguments,
-          style: TextStyle(fontSize: 20),
-        ),
+      body: GridView.builder(
+          gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+          itemCount: controller.lstCategorie.length,
+          itemBuilder: (context,index){
+            var item=controller.lstCategorie[index];
+            return Card(
+                color: Colors.cyan,
+                elevation: 3.0,
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        '${item["LFR"]}',
+                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
+                      ),
+                      Text(
+                        '${item["LEN"]}',
+                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
+                      ),
+                    ],
+                  ),
+                ),
+            );
+          }
       ),
     );
   }
