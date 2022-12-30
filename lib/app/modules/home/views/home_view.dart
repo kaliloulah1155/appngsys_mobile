@@ -32,7 +32,7 @@ class HomeView extends GetView<HomeController> {
                 onPressed: () async {
                   final prefs = await SharedPreferences.getInstance();
                   var token = prefs.getString('token');
-                  print('token in = $token');
+                  Get.toNamed("/categorie", arguments: token);
                 },
                 )
           ],

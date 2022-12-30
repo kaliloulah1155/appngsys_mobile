@@ -35,7 +35,7 @@ class HomeController extends GetxController  {
   Future<void> onReady() async {
     final prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-    print('token = $token');
+    //print('token = $token');
     super.onReady();
   }
 

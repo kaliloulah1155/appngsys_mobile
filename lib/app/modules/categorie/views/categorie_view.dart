@@ -15,7 +15,7 @@ class CategorieView extends GetView<CategorieController> {
       ),
       body: Center(
         child: Text(
-          'CategorieView is working',
+          Get.arguments,
           style: TextStyle(fontSize: 20),
         ),
       ),

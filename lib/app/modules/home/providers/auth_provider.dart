@@ -9,7 +9,6 @@ class AuthProvider extends GetConnect implements GetxService {
   //Fetch Data
   Future<Response> get_auth() async {
     try {
-
       Response response=await get(
           ApiEndPoint.baseUrl+ApiEndPoint.authEndPoints.logger,
           headers: {
@@ -25,10 +24,5 @@ class AuthProvider extends GetConnect implements GetxService {
       return Response(statusCode:1,statusText: e.toString());
     }
   }
-
-
-
-
-
 
 }
