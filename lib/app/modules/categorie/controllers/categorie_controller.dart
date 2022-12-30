@@ -7,12 +7,14 @@ class CategorieController extends GetxController {
   //TODO: Implement CategorieController
 
   final count = 0.obs;
+  var lstCategorie = List<dynamic>.empty(growable: true).obs;
   @override
   void onInit() {
     super.onInit();
     CategorieProvider().get_categories().then((response) async {
       var responseJson = response.body;
-      print(responseJson);
+      lstCategorie.addAll(responseJson['reponses']);
+      print(lstCategorie.length);
       // print(responseJson['token'].toString());
       //final prefs = await SharedPreferences.getInstance();
       //await prefs.setString('token', responseJson['token'].toString());
