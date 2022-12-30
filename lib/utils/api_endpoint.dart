@@ -5,6 +5,7 @@ class ApiEndPoint{
 class _AuthEndPoint{
   final String logger="authentication/Logger.php";
   final String categorie="categories/categories.php";
+  final String categorie_up="categories/update.php";
 }
 
 

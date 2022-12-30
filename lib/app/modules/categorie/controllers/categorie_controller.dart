@@ -9,32 +9,17 @@ class CategorieController extends GetxController {
   final count = 0.obs;
   var lstCategorie = List<dynamic>.empty(growable: true).obs;
   var isDataProcessing = false.obs;
+  var id_categorie=''.obs;
 
+  late TextEditingController lfrEditingController,lenEditingController;
+   var isProcessing=false.obs;
   @override
   void onInit() {
     super.onInit();
     //isDataProcessing(true);
-    CategorieProvider().get_categories().then((response) async {
-      var responseJson = response.body;
-      print('responseJson =$responseJson');
-
-     if(responseJson['reponses']=="Pas de categorie"){
-       isDataProcessing(false);
-     }else{
-       isDataProcessing(true);
-       lstCategorie.addAll(responseJson['reponses']);
-     }
-
-      //print(responseJson['reponses']);
-    }, onError: (err) {
-      isDataProcessing(false);
-      print(err.toString());
-      Get.snackbar("Error", err.toString(),
-          colorText: Colors.white,
-          backgroundColor: Colors.red,
-          snackPosition: SnackPosition.BOTTOM);
-    });
-   // print('isDataProcessing = $isDataProcessing');
+    refreshList();
+    lfrEditingController=TextEditingController();
+    lenEditingController=TextEditingController();
   }
 
   @override
@@ -46,6 +31,63 @@ class CategorieController extends GetxController {
   void onClose() {
     super.onClose();
   }
+  void refreshList() async{
+    CategorieProvider().get_categories().then((response) async {
+      var responseJson = response.body;
+      //print('responseJson =$responseJson');
 
+      if(responseJson['reponses']=="Pas de categorie"){
+        isDataProcessing(false);
+      }else{
+        isDataProcessing(true);
+        lstCategorie.addAll(responseJson['reponses']);
+      }
+
+      //print(responseJson['reponses']);
+    }, onError: (err) {
+      isDataProcessing(false);
+      print(err.toString());
+      Get.snackbar("Error", err.toString(),
+          colorText: Colors.white,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM);
+    });
+  }
+
+  //Update Task
+  void updateCategorie(Map data){
+    try{
+      isProcessing(true);
+      CategorieProvider().updateCategorie(data).then((response){
+        var responseJson = response.body;
+        //print('response : ${response.body}');
+        if(responseJson['message']=="Catégorie modifiée"){
+          clearTextEditingController();
+          isProcessing(false);
+          Get.snackbar("Modifier catégorie","Categorie modifié", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
+          lstCategorie.clear();
+          refreshList();
+
+        }else{
+          Get.snackbar("Modifier catégorie","Echec de modification", colorText: Colors.white,backgroundColor: Colors.red,snackPosition:SnackPosition.BOTTOM);
+        }
+      },onError: (err){
+        isProcessing(true);
+        Get.snackbar("Error", err.toString(), colorText: Colors.red);
+      });
+
+    }catch(exception){
+      isProcessing(true);
+      Get.snackbar("Exception", exception.toString(),
+          colorText: Colors.black,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  void clearTextEditingController(){
+    lfrEditingController.clear();
+    lenEditingController.clear();
+  }
   void increment() => count.value++;
 }
