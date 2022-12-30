@@ -10,36 +10,60 @@ class CategorieView extends GetView<CategorieController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CategorieView'),
+        title: Text('Categories'),
         centerTitle: true,
       ),
-      body: GridView.builder(
-          gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          itemCount: controller.lstCategorie.length,
-          itemBuilder: (context,index){
-            var item=controller.lstCategorie[index];
-            return Card(
-                color: Colors.cyan,
-                elevation: 3.0,
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        '${item["LFR"]}',
-                         style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
+      body: Obx(
+          ()=> GridView.builder(
+            gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemCount: controller.lstCategorie.length,
+            itemBuilder: (context,index){
+              var item=controller.lstCategorie[index];
+              return controller.isDataProcessing ==false ? Text('Données non disponible') : GestureDetector(
+                child: Card(
+                    color: Colors.cyan,
+                    elevation: 3.0,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            '${item["LFR"]}',
+                             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
+                          ),
+                          Text(
+                             item["LEN"] == null ? 'NEANT':'${item["LEN"]}',
+                             style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
+                          ),
+                          Row(
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  //Get.snackbar("hi", "i am a modern snackbar");
+                                  Get.toNamed("/detail?id=${item['ID']}&lfr=${item['LFR']}&len=${item['LEN']}&cod=${item['COD']}");
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.remove_circle),
+                                onPressed: () {
+                                  Get.snackbar("hi", "i am a modern snackbar");
+                                 },
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${item["LEN"]}',
-                        style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 11),
-                      ),
-                    ],
-                  ),
+                    ),
                 ),
-            );
-          }
+                onTap: (){
+                  print('gesture detector');
+                },
+              );
+            }
+        ),
       ),
     );
   }

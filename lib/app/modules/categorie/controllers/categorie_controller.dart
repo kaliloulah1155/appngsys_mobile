@@ -8,20 +8,33 @@ class CategorieController extends GetxController {
 
   final count = 0.obs;
   var lstCategorie = List<dynamic>.empty(growable: true).obs;
+  var isDataProcessing = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+    //isDataProcessing(true);
     CategorieProvider().get_categories().then((response) async {
       var responseJson = response.body;
-      lstCategorie.addAll(responseJson['reponses']);
-      print(lstCategorie.length);
+      print('responseJson =$responseJson');
+
+     if(responseJson['reponses']=="Pas de categorie"){
+       isDataProcessing(false);
+     }else{
+       isDataProcessing(true);
+       lstCategorie.addAll(responseJson['reponses']);
+     }
+
+      //print(responseJson['reponses']);
     }, onError: (err) {
+      isDataProcessing(false);
       print(err.toString());
       Get.snackbar("Error", err.toString(),
           colorText: Colors.white,
           backgroundColor: Colors.red,
           snackPosition: SnackPosition.BOTTOM);
     });
+   // print('isDataProcessing = $isDataProcessing');
   }
 
   @override
