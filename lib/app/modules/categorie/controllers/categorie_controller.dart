@@ -64,7 +64,7 @@ class CategorieController extends GetxController {
         if(responseJson['message']=="Catégorie modifiée"){
           clearTextEditingController();
           isProcessing(false);
-          Get.snackbar("Modifier catégorie","Categorie modifié", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
+          Get.snackbar("Succès","Categorie modifiée", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
           lstCategorie.clear();
           refreshList();
 
@@ -85,6 +85,36 @@ class CategorieController extends GetxController {
     }
   }
 
+  //Delete Task
+  void deleteCategorie(var id){
+    try{
+      isProcessing(true);
+      CategorieProvider().deleteCategorie(id).then((response){
+        var responseJson = response.body;
+        //print('response : ${response.body}');
+        if(responseJson['message']=="Catégorie supprimée"){
+          clearTextEditingController();
+          isProcessing(false);
+          Get.snackbar("Succès","Catégorie supprimée", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
+          lstCategorie.clear();
+          refreshList();
+
+        }else{
+          Get.snackbar("Supprimer catégorie","Echec de suppression", colorText: Colors.white,backgroundColor: Colors.red,snackPosition:SnackPosition.BOTTOM);
+        }
+      },onError: (err){
+        isProcessing(true);
+        Get.snackbar("Error", err.toString(), colorText: Colors.red);
+      });
+
+    }catch(exception){
+      isProcessing(true);
+      Get.snackbar("Exception", exception.toString(),
+          colorText: Colors.black,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
   void clearTextEditingController(){
     lfrEditingController.clear();
     lenEditingController.clear();

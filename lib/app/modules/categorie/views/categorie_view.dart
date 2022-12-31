@@ -65,7 +65,21 @@ class CategorieView extends GetView<CategorieController> {
                             IconButton(
                               icon: Icon(Icons.remove_circle),
                               onPressed: () {
-                                Get.snackbar("hi", "i am a modern snackbar");
+                                Get.defaultDialog(
+                                    title:  "Supprimer Catégorie",
+                                    titleStyle: TextStyle(fontSize: 20),
+                                    middleText: "Etes-vous sure de supprimer ?",
+                                    barrierDismissible: false,
+                                    textCancel: "Annuler",
+                                    textConfirm: "Confirmer",
+                                    confirmTextColor: Colors.white,
+                                    onCancel: (){},
+                                    onConfirm: (){
+                                      controller.deleteCategorie(item['ID']);
+                                      Get.back();
+                                    }
+
+                                );
                               },
                             ),
                           ],
