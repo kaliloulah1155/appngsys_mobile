@@ -33,7 +33,6 @@ class CategorieProvider extends GetConnect  {
   //Update Data
   Future<Response> updateCategorie(Map data) async{
     print('data : ${data["id"]}');
-
     final form = FormData({
       "id": "${data['id']}",
       "lfr": data['lfr'],

@@ -34,12 +34,12 @@ class CategorieController extends GetxController {
   void refreshList() async{
     CategorieProvider().get_categories().then((response) async {
       var responseJson = response.body;
-      //print('responseJson =$responseJson');
-
+      print('responseJson =$responseJson');
+      isDataProcessing(true);
       if(responseJson['reponses']=="Pas de categorie"){
-        isDataProcessing(false);
-      }else{
         isDataProcessing(true);
+      }else{
+        isDataProcessing(false);
         lstCategorie.addAll(responseJson['reponses']);
       }
 
