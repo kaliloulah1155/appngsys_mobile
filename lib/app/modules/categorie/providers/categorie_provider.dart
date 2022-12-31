@@ -30,6 +30,34 @@ class CategorieProvider extends GetConnect  {
     }
   }
 
+  //Add Data
+  Future<Response> addCategorie(Map data) async{
+    final form = FormData({
+      "cod": data['cod'],
+      "lfr": data['lfr'],
+      "len": data['len']
+    });
+    // Make a form data body
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+      final response=await post(ApiEndPoint.baseUrl+ApiEndPoint.authEndPoints.categorie_add,
+        form,
+        headers: {
+          'Authorization':'Bearer $token'
+        },
+        contentType: "multipart/form-data",
+      );
+      if(response.status.hasError){
+        return Future.error(response.statusText.toString());
+      }else{
+        return response;
+      }
+    }catch(exception){
+      return Future.error(exception);
+    }
+  }
+
   //Update Data
   Future<Response> updateCategorie(Map data) async{
     final form = FormData({
@@ -57,7 +85,6 @@ class CategorieProvider extends GetConnect  {
       return Future.error(exception);
     }
   }
-
 
   //Delete Data
   Future<Response> deleteCategorie(var id) async{

@@ -106,7 +106,7 @@ class CategorieView extends GetView<CategorieController> {
         label: Text('Ajouter une catégorie'),
         icon: Icon(Icons.add),
         onPressed: (){
-          print('ok add');
+          displayAddTaskWindow();
         },
         backgroundColor: Colors.lightBlue,
       ),
@@ -169,6 +169,91 @@ class CategorieView extends GetView<CategorieController> {
                         onPressed: () async {
                           controller.updateCategorie({
                             "id": id,
+                            "lfr": controller.lfrEditingController.text,
+                            "len": controller.lenEditingController.text
+                          });
+                          Get.back();
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void displayAddTaskWindow() {
+    Get.bottomSheet(
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16), topLeft: Radius.circular(16)),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+          child: ListView(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Ajouter une catégorie',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Code',
+                        hintText: 'Code',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        )),
+                    controller: controller.codEditingController,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Libellé en francais',
+                        hintText: 'Libellé en francais',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        )),
+                    controller: controller.lfrEditingController,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Libellé en anglais',
+                        hintText: 'Libellé en anglais',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        )),
+                    controller: controller.lenEditingController,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: Text('Valider'),
+                        onPressed: () async {
+                          controller.addCategorie({
+                            "cod": controller.codEditingController.text,
                             "lfr": controller.lfrEditingController.text,
                             "len": controller.lenEditingController.text
                           });

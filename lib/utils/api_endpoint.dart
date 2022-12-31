@@ -8,6 +8,7 @@ class _AuthEndPoint{
   final String categorie="categories/categories.php";
   final String categorie_up="categories/update.php";
   final String categorie_del="categories/destroy.php";
+  final String categorie_add="categories/insert.php";
 }
 
 

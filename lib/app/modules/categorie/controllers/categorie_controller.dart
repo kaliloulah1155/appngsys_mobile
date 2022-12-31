@@ -11,7 +11,7 @@ class CategorieController extends GetxController {
   var isDataProcessing = false.obs;
   var id_categorie=''.obs;
 
-  late TextEditingController lfrEditingController,lenEditingController;
+  late TextEditingController lfrEditingController,lenEditingController,codEditingController;
    var isProcessing=false.obs;
   @override
   void onInit() {
@@ -20,6 +20,7 @@ class CategorieController extends GetxController {
     refreshList();
     lfrEditingController=TextEditingController();
     lenEditingController=TextEditingController();
+    codEditingController=TextEditingController();
   }
 
   @override
@@ -55,6 +56,37 @@ class CategorieController extends GetxController {
   }
 
   //Update Task
+  void addCategorie(Map data){
+    try{
+      isProcessing(true);
+      CategorieProvider().addCategorie(data).then((response){
+        var responseJson = response.body;
+        //print('response : ${response.body}');
+        if(responseJson['message']=="Catégorie créée"){
+          clearTextEditingController();
+          isProcessing(false);
+          Get.snackbar("Succès","Catégorie créée", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
+          lstCategorie.clear();
+          refreshList();
+
+        }else{
+          Get.snackbar("Créer catégorie","Echec de creation", colorText: Colors.white,backgroundColor: Colors.red,snackPosition:SnackPosition.BOTTOM);
+        }
+      },onError: (err){
+        isProcessing(true);
+        Get.snackbar("Error", err.toString(), colorText: Colors.red);
+      });
+
+    }catch(exception){
+      isProcessing(true);
+      Get.snackbar("Exception", exception.toString(),
+          colorText: Colors.black,
+          backgroundColor: Colors.red,
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  //Update Categorie
   void updateCategorie(Map data){
     try{
       isProcessing(true);
@@ -85,7 +117,7 @@ class CategorieController extends GetxController {
     }
   }
 
-  //Delete Task
+  //Delete Categorie
   void deleteCategorie(var id){
     try{
       isProcessing(true);
@@ -115,9 +147,12 @@ class CategorieController extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
+
+
   void clearTextEditingController(){
     lfrEditingController.clear();
     lenEditingController.clear();
+    codEditingController.clear();
   }
   void increment() => count.value++;
 }
