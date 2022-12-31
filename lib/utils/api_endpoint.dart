@@ -1,5 +1,6 @@
 class ApiEndPoint{
-  static final String baseUrl="http://10.0.2.2:81/API_RES_POSEIDON/api/";
+  //static final String baseUrl="http://10.0.2.2:81/API_RES_POSEIDON/api/"; //for emulator
+  static final String baseUrl="http://192.168.1.159:81/API_RES_POSEIDON/api/"; //for mobile phone(allow config on your serveur)
   static _AuthEndPoint authEndPoints=_AuthEndPoint();
 }
 class _AuthEndPoint{
