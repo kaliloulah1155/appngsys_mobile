@@ -8,7 +8,7 @@ class CategorieController extends GetxController {
 
   final count = 0.obs;
   var lstCategorie = List<dynamic>.empty(growable: true).obs;
-  var isDataProcessing = false.obs;
+  var isDataProcessing = true.obs;
   var id_categorie=''.obs;
 
   late TextEditingController lfrEditingController,lenEditingController,codEditingController;
@@ -16,7 +16,7 @@ class CategorieController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //isDataProcessing(true);
+     isDataProcessing(true);
     refreshList();
     lfrEditingController=TextEditingController();
     lenEditingController=TextEditingController();
@@ -35,8 +35,6 @@ class CategorieController extends GetxController {
   void refreshList() async{
     CategorieProvider().get_categories().then((response) async {
       var responseJson = response.body;
-      print('responseJson =$responseJson');
-      isDataProcessing(true);
       if(responseJson['reponses']=="Pas de categorie"){
         isDataProcessing(true);
       }else{
@@ -89,13 +87,13 @@ class CategorieController extends GetxController {
   //Update Categorie
   void updateCategorie(Map data){
     try{
-      isProcessing(true);
+      isDataProcessing(true);
       CategorieProvider().updateCategorie(data).then((response){
         var responseJson = response.body;
         //print('response : ${response.body}');
         if(responseJson['message']=="Catégorie modifiée"){
           clearTextEditingController();
-          isProcessing(false);
+          isDataProcessing(false);
           Get.snackbar("Succès","Categorie modifiée", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
           lstCategorie.clear();
           refreshList();
@@ -104,7 +102,7 @@ class CategorieController extends GetxController {
           Get.snackbar("Modifier catégorie","Echec de modification", colorText: Colors.white,backgroundColor: Colors.red,snackPosition:SnackPosition.BOTTOM);
         }
       },onError: (err){
-        isProcessing(true);
+        isDataProcessing(true);
         Get.snackbar("Error", err.toString(), colorText: Colors.red);
       });
 
@@ -120,13 +118,13 @@ class CategorieController extends GetxController {
   //Delete Categorie
   void deleteCategorie(var id){
     try{
-      isProcessing(true);
+      isDataProcessing(true);
       CategorieProvider().deleteCategorie(id).then((response){
         var responseJson = response.body;
         //print('response : ${response.body}');
         if(responseJson['message']=="Catégorie supprimée"){
           clearTextEditingController();
-          isProcessing(false);
+          isDataProcessing(false);
           Get.snackbar("Succès","Catégorie supprimée", colorText: Colors.white,backgroundColor: Colors.green,snackPosition:SnackPosition.BOTTOM);
           lstCategorie.clear();
           refreshList();
@@ -135,7 +133,7 @@ class CategorieController extends GetxController {
           Get.snackbar("Supprimer catégorie","Echec de suppression", colorText: Colors.white,backgroundColor: Colors.red,snackPosition:SnackPosition.BOTTOM);
         }
       },onError: (err){
-        isProcessing(true);
+        isDataProcessing(true);
         Get.snackbar("Error", err.toString(), colorText: Colors.red);
       });
 

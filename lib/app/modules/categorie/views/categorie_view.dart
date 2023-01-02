@@ -15,17 +15,21 @@ class CategorieView extends GetView<CategorieController> {
         centerTitle: true,
       ),
       body: Obx(() {
-
-        if(controller.isDataProcessing.value==true){
+        print('avant ${controller.isDataProcessing}');
+        if (controller.isDataProcessing.value == true) {
           return Center(
             child: Container(
               padding: EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),)),
+              child: CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+              ),
+            ),
           );
-        }else {
+        } else {
+          print('apres ${controller.isDataProcessing}');
           return GridView.builder(
             gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             itemCount: controller.lstCategorie.length,
             itemBuilder: (context, index) {
               var item = controller.lstCategorie[index];
@@ -66,20 +70,18 @@ class CategorieView extends GetView<CategorieController> {
                               icon: Icon(Icons.remove_circle),
                               onPressed: () {
                                 Get.defaultDialog(
-                                    title:  "Supprimer Catégorie",
+                                    title: "Supprimer Catégorie",
                                     titleStyle: TextStyle(fontSize: 20),
                                     middleText: "Etes-vous sure de supprimer ?",
                                     barrierDismissible: false,
                                     textCancel: "Annuler",
                                     textConfirm: "Confirmer",
                                     confirmTextColor: Colors.white,
-                                    onCancel: (){},
-                                    onConfirm: (){
+                                    onCancel: () {},
+                                    onConfirm: () {
                                       controller.deleteCategorie(item['ID']);
                                       Get.back();
-                                    }
-
-                                );
+                                    });
                               },
                             ),
                           ],
@@ -93,9 +95,9 @@ class CategorieView extends GetView<CategorieController> {
                   displayEditCategorieWindow(
                       controller.lstCategorie[index]['ID'],
                       controller.lfrEditingController.text =
-                      controller.lstCategorie[index]['LFR'],
+                          controller.lstCategorie[index]['LFR'],
                       controller.lenEditingController.text =
-                      controller.lstCategorie[index]['LEN']);
+                          controller.lstCategorie[index]['LEN'] !=null ?controller.lstCategorie[index]['LEN']: ''  );
                 },
               );
             },
@@ -105,7 +107,7 @@ class CategorieView extends GetView<CategorieController> {
       floatingActionButton: FloatingActionButton.extended(
         label: Text('Ajouter une catégorie'),
         icon: Icon(Icons.add),
-        onPressed: (){
+        onPressed: () {
           displayAddTaskWindow();
         },
         backgroundColor: Colors.lightBlue,
@@ -233,11 +235,12 @@ class CategorieView extends GetView<CategorieController> {
                   ),
                   TextField(
                     decoration: InputDecoration(
-                        labelText: 'Libellé en anglais',
-                        hintText: 'Libellé en anglais',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        )),
+                      labelText: 'Libellé en anglais',
+                      hintText: 'Libellé en anglais',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
                     controller: controller.lenEditingController,
                   ),
                   SizedBox(
